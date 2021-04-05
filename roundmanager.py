@@ -10,15 +10,16 @@ class RoundManager():
         self.roundNumber = roundNumber
         self.gameManager = gameManager
         self.playersInRound = gameManager.getRemainingPlayers()
-        self.isFinalRound = True if len(self.playersInRound) < 3 else False
+        self.isFinalRound = True if len(self.playersInRound) < 3 else False # if only two players remain - it is the final round
+        self.numQuestionsInFinalRound = 5
         self.currentPlayerIndex = random.randrange(0, len(self.playersInRound))
         self.activePlayer = self.playersInRound[self.currentPlayerIndex]
         self.roundLength = random.randrange(len(self.playersInRound), len(self.playersInRound) * 2) # the number of questions to ask
         self.timer = Timer(self.roundLength)
         self.questions = []
         self.currentQuestion = None
-        # Sets up a dictionary to record info about player actions in the round    
-        self.playerRoundInfoDict = {}  
+        # Sets up a dictionary to record info about player actions in the round
+        self.playerRoundInfoDict = {}
         for player in self.playersInRound:
             self.playerRoundInfoDict[player] = {
                 "numCorrectAnswers": 0,
@@ -65,7 +66,7 @@ class RoundManager():
             #self.gameManager.printHeader("Round " + str(self.roundNumber))
             print(self.timer)
             self.timer.update()
-            
+
             print()
             self.gameManager.host.say(str(self.activePlayer) + ".")
             print()
@@ -114,9 +115,9 @@ class RoundManager():
 
     """
     playFinalRound()
-    The final round occurs when there are two players remaining. 
+    The final round occurs when there are two players remaining.
 
-    The final two contestants battle it out in a head-to-head contest. 
+    The final two contestants battle it out in a head-to-head contest.
     They are eached asked 5 questions. Whoever answers the most correct wins the game.
     """
     def playFinalRound(self):
@@ -139,7 +140,7 @@ class RoundManager():
         self.gameManager.clearScreen()
 
 
-        for numQuestion in range(2):
+        for numQuestion in range(self.numQuestionsInFinalRound):
             for player in self.playersInRound:
                 print(player.name + " | " + str(self.playerRoundInfoDict[player]['numCorrectAnswers']) + " correct | " + str(self.playerRoundInfoDict[player]['numIncorrectAnswers']) + " incorrect |")
             print()
@@ -158,7 +159,7 @@ class RoundManager():
             self.gameManager.clearScreen()
             self.setNextActivePlayer()
 
-        
+
         if self.playerRoundInfoDict[playerA]["numCorrectAnswers"] == self.playerRoundInfoDict[playerB]["numCorrectAnswers"]:
             suddenDeath = True
             self.gameManager.host.say("Time for sudden death!")
@@ -252,7 +253,7 @@ class RoundManager():
                 players.append(player)
             elif numCorrect > mostCorrectAnswers:
                 players = [player]
-        
+
         # if there is multiple strongest links -> pick one at random
         if len(players) > 1:
             self.gameManager.host.say("As it appears that there are multiple strong links. We pick at random.")
@@ -321,7 +322,7 @@ class RoundManager():
         self.questions.append(self.currentQuestion)
         self.gameManager.host.say(self.currentQuestion.question, "")
         self.gameManager.displayList(self.currentQuestion.choices)
-    
+
     """
     checkAnswer()
     Checks if the player answer matches the correct answer for the question
@@ -331,7 +332,7 @@ class RoundManager():
         if playerAnswer.lower().strip() == self.currentQuestion.correctAnswer.lower().strip():
             self.gameManager.host.say("Correct")
             self.gameManager.bank.moveUp()
-            self.playerRoundInfoDict[self.activePlayer]["numCorrectAnswers"] += 1    
+            self.playerRoundInfoDict[self.activePlayer]["numCorrectAnswers"] += 1
         else:
             self.gameManager.host.say("The correct answer is " + self.currentQuestion.correctAnswer)
             self.playerRoundInfoDict[self.activePlayer]["numIncorrectAnswers"] += 1
