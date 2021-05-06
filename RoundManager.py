@@ -11,7 +11,7 @@ class RoundManager():
         self.gameManager = gameManager
         self.playersInRound = gameManager.getRemainingPlayers()
         self.isFinalRound = True if len(self.playersInRound) < 3 else False # if only two players remain - it is the final round
-        self.numQuestionsInFinalRound = 5
+        self.numQuestionsInFinalRound = 10
         self.currentPlayerIndex = random.randrange(0, len(self.playersInRound))
         self.activePlayer = self.playersInRound[self.currentPlayerIndex]
         self.roundLength = random.randrange(len(self.playersInRound), len(self.playersInRound) * 2) # the number of questions to ask
