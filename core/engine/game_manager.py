@@ -1,5 +1,5 @@
-from contestants.contestant import Player
-from scenes.scene_base import SceneTypes, SceneBase
+from contestants.player import Player
+from scenes.scene_base import SceneBase
 
 from queue import Queue
 

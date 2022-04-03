@@ -1,11 +1,6 @@
 from os import system, name
 from time import sleep
 
-import multiprocessing
-
-from numpy import block
-from engine.text_to_speech import say
-
 def clear_screen():
     if name == 'nt':
         _ = system('cls')

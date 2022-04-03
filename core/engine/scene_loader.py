@@ -1,4 +1,6 @@
 from scenes.scene_base import SceneTypes
+
+
 from scenes.introduction import IntroductionScene
 from scenes.main_menu import MainMenuScene
 from scenes.session_setup import SessionSetupScene

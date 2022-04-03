@@ -1,46 +1,14 @@
-from ctypes.wintypes import BOOLEAN
 import enum
 import json
-from secrets import choice
 import urllib.request
 from html import unescape
 from random import shuffle
-
-from questions.question import Question, QuestionTypes, question_types
-
-class TriviaQuestionDifficulties(enum.Enum):
-    EASY = "easy"
-    MEDIUM = "medium"
-    HARD = "hard"
-
-class TriviaQuestionCategory(enum.IntEnum):
-    GENERAL_KNOWLEDGE = 9
-    BOOKS = 10
-    FILM = 11
-    MUSIC = 12
-    MUSICALS_AND_THEATRE = 13
-    TELEVISION = 14
-    VIDEO_GAMES = 15
-    BOARD_GAMES = 16
-    SCIENCE_AND_NATURE = 17
-    COMPUTERS = 18
-    MATHEMATICS = 19
-    MYTHOLOGY = 20
-    SPORTS = 21
-    GEOGRAPHY = 22
-    HISTORY = 23
-    POLITICS = 24
-    ART = 25
-    CELEBRITIES = 26
-    ANIMALS = 27
-    VEHICLES = 28
-    COMICS = 29
-    GADGETS = 30
-    JAPANESE_ANIME = 31
+from .question import Question, QuestionType
+from .question_enums import QuestionType, TriviaQuestionCategory, TriviaQuestionDifficulties
 
 class TriviaQuestion(Question):
     def __init__(self, difficulty:TriviaQuestionDifficulties=None, 
-                        type:QuestionTypes=None, 
+                        type:QuestionType=None, 
                         category:TriviaQuestionCategory=None):
         super().__init__(type)
         self._difficulty = difficulty
@@ -48,22 +16,16 @@ class TriviaQuestion(Question):
         self._choices = None
         self._get_question_from_api()
 
-    def _build_api_url(self):
+    def _build_api_url(self): # TODO : Refactor out of this class
         url = "https://opentdb.com/api.php?"
         amount = 1
-        url = url + "&amount={}".format(amount)
-        #https://opentdb.com/api.php?amount=1&category=16&difficulty=easy&type=multiple
+        url = url + "&amount={}".format(1)
+        url = url + "&type={}".format(self._type.name.lower()) if self._type != None else url
+        url = url + "&category={}".format(self._category) if self._category != None else url
+        url = url + "&difficulty={}".format(self._difficulty.name.lower()) if self._difficulty != None else url
+        return url #e.g https://opentdb.com/api.php?amount=1&category=16&difficulty=easy&type=multiple
 
-        if self._type != None:
-            url = url + "&type={}".format(question_types[self._type])
-        if self._category != None:
-            url = url + "&category={}".format(self._category)
-        if self._difficulty != None:
-            url = url + "&difficulty={}".format(self._difficulty.value)
-
-        return url
-
-    def _get_question_from_api(self):
+    def _get_question_from_api(self): # TODO : Refactor out of this class
         with urllib.request.urlopen(self._build_api_url()) as f:
             result = json.loads(f.read())
             result = result['results']
@@ -95,7 +57,5 @@ class TriviaQuestion(Question):
         return "Question: {0}\nCorrect Answers: {1}\nIncorrect Answers: {2}".format(self._question, self._correct_answers, self._incorrect_answers)
 
 if __name__ == "__main__":
-    question = TriviaQuestion(TriviaQuestionDifficulties.EASY, QuestionTypes.MULTIPLE, TriviaQuestionCategory.ANIMALS)
-    #import sys
-    #print(sys.argv[1])
+    question = TriviaQuestion(TriviaQuestionDifficulties.EASY, QuestionType.MULTIPLE, TriviaQuestionCategory.ANIMALS)
     print(question)

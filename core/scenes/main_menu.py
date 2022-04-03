@@ -1,10 +1,12 @@
 
 from time import sleep
 from turtle import delay
-from scenes.scene_base import SceneBase, SceneTypes
+from .scene_base import SceneBase, SceneTypes
 from engine.game_manager import GameManager
-from engine.sound_manager import SoundManager, Sounds
-from contestants.contestant import Player, PromptTypes
+from engine.sound.sound_enums import  Sounds
+from engine.sound.sound_manager import SoundManager
+from contestants.contestant_enums import PromptType
+from contestants.player import Player
 
 from utils import print_with_delay, clear_screen
 from images.utils import print_ascii_art_from_file
@@ -22,7 +24,7 @@ class MainMenuScene(SceneBase):
 
     def play(self):
         print_ascii_art_from_file(r"assets\ascii_art\logo.txt", delay=0.25)
-        Player.get_response(PromptTypes.CONTINUE)
+        Player.get_response(PromptType.CONTINUE)
 
         print("=== MAIN MENU ===")
         print('=               =')
@@ -31,9 +33,9 @@ class MainMenuScene(SceneBase):
         print('=               =')
         print("=================")
 
-        response = Player.get_response(PromptTypes.NUMBER)
+        response = Player.get_response(PromptType.NUMBER)
         if not response.isnumeric():
-            response = int(Player.get_response(PromptTypes.NUMBER))
+            response = int(Player.get_response(PromptType.NUMBER))
 
 
         GameManager.scene_queue.put(SceneTypes.SETUP)

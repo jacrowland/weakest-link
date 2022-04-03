@@ -1,5 +1,5 @@
 import names
-from contestants.contestant import NPC
+from contestants.npc import NPC
 from contestants.personality import PersonalityType
 from random import choice, randrange
 import json

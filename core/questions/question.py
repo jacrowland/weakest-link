@@ -1,15 +1,7 @@
-import enum
-
-class QuestionTypes(enum.IntEnum):
-    BOOLEAN = 1
-    MULTIPLE = 2
-
-question_types = {}
-question_types[QuestionTypes.BOOLEAN] = "boolean"
-question_types[QuestionTypes.MULTIPLE] = "multiple"
+from .question_enums import QuestionType
 
 class Question():
-    def __init__(self, type:QuestionTypes=None):
+    def __init__(self, type:QuestionType=None):
         self._question = None
         self._correct_answers = None
         self._incorrect_answers = None
