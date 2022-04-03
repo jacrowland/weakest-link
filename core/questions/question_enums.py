@@ -4,8 +4,7 @@ class QuestionType(enum.IntEnum):
     BOOLEAN = 1
     MULTIPLE = 2
 
-
-class TriviaQuestionDifficulties(enum.IntEnum):
+class TriviaQuestionDifficultyType(enum.IntEnum):
     EASY = 1
     MEDIUM = 2
     HARD = 3
