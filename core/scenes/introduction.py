@@ -1,4 +1,5 @@
 
+from contestants.contestant_base import Contestant
 from .scene_base import SceneBase
 from .scene_types import SceneTypes
 from engine.game_manager import GameManager
@@ -8,8 +9,12 @@ from contestants.player import Player
 from contestants.npc import NPC
 from contestants.contestant_enums import PromptType
 
+from bank import Bank
+
 from utils import print_with_delay, clear_screen
 from images.utils import print_ascii_art_from_file
+
+from time import sleep
 
 class IntroductionScene(SceneBase):
     def __init__(self):
@@ -46,21 +51,52 @@ class IntroductionScene(SceneBase):
 
         Player.get_response(prompt_type=PromptType.CONTINUE)
 
-        for contestant in GameManager.contestants:
-            if isinstance(contestant, NPC):
-                print_with_delay(f"{contestant.name}: Hi I'm {contestant.name}. I am from {contestant.location} and I am a {contestant.occupation}")
-            elif isinstance(contestant, Player):
-                print("[Introduce yourself to the contestants]")
-                Player.get_response(PromptType.STRING)
+        clear_screen()
 
-        Player.get_response(PromptType.CONTINUE)
+        print_ascii_art_from_file(r"assets\ascii_art\contestant_at_podium.txt", delay=0.15)
+        for contestant in GameManager.contestants:
+            if isinstance(contestant, Contestant):
+                print_with_delay(f"{contestant.name}: Hi I'm {contestant.name}. I am from {contestant.location} and I am a {contestant.occupation}")
+                Player.get_response(PromptType.CONTINUE)
+                clear_screen()
 
         clear_screen()
 
+        print_with_delay('Host: Now the rules.')
+        print_with_delay('Host: In each round the aim is to answer enough questions correctly to reach our $1000 target within the time limit.')
+        print_with_delay('Host: The fastest way is to create a chain of nine correct answers.')
 
 
+        example_bank = Bank()
+        example_bank.current_pos = 6
+        print()
+        for i in range(3):
+            print(example_bank, "\n")
+            example_bank.increment()
+            sleep(1)
 
-        # when some condition is met transition to the next scene
+        Player.get_response(PromptType.CONTINUE)
+
+
+        print_with_delay('Host: Get your question wrong and you break the chain and you lose all the money in that chain.')
+
+        example_bank.reset_chain()
+        print("\n", example_bank, "\n")
+
+        Player.get_response(PromptType.CONTINUE)
+
+        print_with_delay('Host: But if you say BANK! before the question is asked the money is safe.')
+
+        example_bank.current_pos = 8
+        print("\n> Bank!")
+        sleep(1)
+        example_bank.save()
+        print(example_bank, "\n")
+
+        print_with_delay('Host: However, you start a new chain from scratch.')
+        print_with_delay('Host: At the end of the round only money that has been banked can be taken forward.')
+
+        Player.get_response(PromptType.CONTINUE)
         self.on_scene_exit()
 
     def on_scene_exit(self):

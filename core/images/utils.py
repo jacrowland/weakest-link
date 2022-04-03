@@ -78,7 +78,7 @@ def get_ascii_image(query_string)->str:
         print("Error: %s - %s." % (e.filename, e.strerror))
     return ascii_img
 
-def print_ascii_art_from_file(path, delay=0.00001):
+def print_ascii_art_from_file(path, delay=0):
     with open(path) as f:
         lines = f.readlines()
     print_with_delay(lines, delay=delay)
