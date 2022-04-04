@@ -8,6 +8,10 @@ from engine.sound.sound_manager import SoundManager
 from contestants.contestant_enums import PromptType
 from contestants.player import Player
 
+
+from .session_setup import SessionSetupScene
+
+
 from utils import print_with_delay, clear_screen
 from images.utils import print_ascii_art_from_file
 
@@ -37,8 +41,7 @@ class MainMenuScene(SceneBase):
         if not response.isnumeric():
             response = int(Player.get_response(PromptType.NUMBER))
 
-
-        GameManager.scene_queue.put(SceneTypes.SETUP)
+        GameManager.scene_queue.put(SessionSetupScene())
             
         self.on_scene_exit()
 

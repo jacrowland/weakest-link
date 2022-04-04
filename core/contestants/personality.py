@@ -1,4 +1,4 @@
-from questions.trivia_question import TriviaQuestionCategory
+from questions.question_enums import TriviaQuestionCategory
 import enum
 
 class NPCPersonality():

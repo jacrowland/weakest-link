@@ -1,6 +1,9 @@
 from asyncore import loop
 from .scene_base import SceneBase
 from .scene_types import SceneTypes
+
+from .introduction import IntroductionScene
+
 from engine.game_manager import GameManager
 from engine.sound.sound_manager import SoundManager
 from engine.sound.sound_enums import Sounds, AudioType
@@ -42,7 +45,8 @@ class SessionSetupScene(SceneBase):
 
         print("=== COMPLETE ===")
         Player.get_response(PromptType.CONTINUE)
-        GameManager.scene_queue.put(SceneTypes.INTRODUCTION)
+
+        GameManager.scene_queue.put(IntroductionScene())
 
     def on_scene_exit(self):
         clear_screen()

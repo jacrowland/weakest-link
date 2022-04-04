@@ -6,6 +6,7 @@ class Contestant(ABC):
         self._name = name
         self._location = location
         self._occupation = occupation
+        self._eliminated = False
 
     def __str__(self):
         return f'Name: {self.name}\nLocation: {self._location}\nOccupation: {self._occupation}'
@@ -25,4 +26,12 @@ class Contestant(ABC):
     @property
     def occupation(self):
         return self._occupation
+    
+    @property
+    def eliminated(self):
+        return self._eliminated
+
+    @eliminated.setter
+    def eliminated(self, status:bool):
+        self._eliminated = status
 

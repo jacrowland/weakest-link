@@ -1,13 +1,12 @@
 from random import shuffle
-from .question import Question, QuestionType
-from .question_enums import QuestionType, TriviaQuestionCategory, TriviaQuestionDifficultyType
-
+from .question import Question
 class TriviaQuestion(Question):
     def __init__(self, question, correct_answers, incorrect_answers, type, difficulty, category):
-        super().__init__(type)
+        super().__init__(question=question, correct_answers=correct_answers, incorrect_answers=incorrect_answers,type=type)
         self._difficulty = difficulty
         self._category = category
-        self._choices = shuffle([*self.incorrect_answers, *self._correct_answers])
+        self._choices = incorrect_answers + correct_answers
+        shuffle(self._choices)
 
     def check_answer(self, response:str)->bool:
         return response.lower() in [answer.lower() for answer in self.correct_answers]
@@ -29,7 +28,3 @@ class TriviaQuestion(Question):
 
     def __str__(self):
         return "Question: {0}\nCorrect Answers: {1}\nIncorrect Answers: {2}".format(self._question, self._correct_answers, self._incorrect_answers)
-
-if __name__ == "__main__":
-    question = TriviaQuestion(TriviaQuestionDifficultyType.EASY, QuestionType.MULTIPLE, TriviaQuestionCategory.ANIMALS)
-    print(question)

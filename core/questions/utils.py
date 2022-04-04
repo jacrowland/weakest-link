@@ -29,7 +29,7 @@ def get_question_from_api(type:str, category:int, difficulty:str, amount=1):
     question = unescape(result[0]['question'])
     incorrect_answers = [unescape(incorrect_answer) for incorrect_answer in result[0]['incorrect_answers']]
     correct_answers = [f"{unescape(result[0]['correct_answer'])}"]
-    trivia_question = TriviaQuestion(question, correct_answers, incorrect_answers)
+    trivia_question = TriviaQuestion(question, correct_answers, incorrect_answers, type, difficulty, category)
 
     return trivia_question
 

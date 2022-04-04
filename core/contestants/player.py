@@ -16,7 +16,7 @@ class Player(Contestant):
                     valid_response = True
                 else:
                     print("You must enter a number.")
-            if prompt_type is PromptType.STRING:
+            if prompt_type is PromptType.STRING or prompt_type is PromptType.TRIVIA_QUESTION:
                 if response == '':
                     response = default_response
                 valid_response = True

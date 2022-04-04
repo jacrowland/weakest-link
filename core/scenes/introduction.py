@@ -16,6 +16,8 @@ from images.utils import print_ascii_art_from_file
 
 from time import sleep
 
+from .rounds.regular_round import RegularRoundScene
+
 class IntroductionScene(SceneBase):
     def __init__(self):
         super(IntroductionScene, self).__init__(scene_type=SceneTypes.INTRODUCTION)
@@ -88,6 +90,7 @@ class IntroductionScene(SceneBase):
         print_with_delay('Host: But if you say BANK! before the question is asked the money is safe.')
 
         example_bank.current_pos = 8
+        print("\n", example_bank, "\n")
         print("\n> Bank!")
         sleep(1)
         example_bank.save()
@@ -97,6 +100,9 @@ class IntroductionScene(SceneBase):
         print_with_delay('Host: At the end of the round only money that has been banked can be taken forward.')
 
         Player.get_response(PromptType.CONTINUE)
+
+        GameManager.scene_queue.put(RegularRoundScene())
+
         self.on_scene_exit()
 
     def on_scene_exit(self):
