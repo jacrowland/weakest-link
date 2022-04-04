@@ -1,5 +1,9 @@
 from threading import Timer
 from typing import Deque
+
+from prompt_toolkit import prompt
+
+from core import bank
 from ..scene_base import SceneBase
 from ..scene_types import SceneTypes
 from engine.game_manager import GameManager
@@ -76,29 +80,44 @@ class RegularRoundScene(SceneBase):
 
     def _main_question_loop(self):
         while self.timer.is_alive():
-            print_with_delay(format_time(self.timer.remaining()))
             current_contestant = self.round_info.contestant_order.get()
             self.round_info.contestant_order.put(current_contestant)
+
+            print("\n", GameManager.bank, "\n")
+
+            bank_response = current_contestant.get_response(PromptType.BANK)
+            print_with_delay(f"{current_contestant.name}: {bank_response}")
+
+            if bank_response == "Bank!":
+                GameManager.bank.save()
+        
+            print_with_delay(format_time(self.timer.remaining()))
+
             print_with_delay(f"\nHost: {current_contestant.name}.")
+
             trivia_question = get_random_question_from_api()
             self.round_info.questions.append(trivia_question)
+
             print_with_delay(f"Host: {trivia_question.question}\n")
             for i, choice in enumerate(trivia_question.choices):
                 print_with_delay(f'{i+1}) {choice}')
             print()
-            if isinstance(current_contestant, NPC):
-                sleep(randrange(2, 5))
-            response = current_contestant.get_response(PromptType.TRIVIA_QUESTION, prompt=trivia_question)
-            print_with_delay(f"{current_contestant.name}: {response}")
-            if trivia_question.check_answer(str(response)):
+
+            question_response = current_contestant.get_response(PromptType.TRIVIA_QUESTION, prompt=trivia_question)
+            print_with_delay(f"{current_contestant.name}: {question_response}")
+            if trivia_question.check_answer(str(question_response)):
                 print_with_delay("Host: Correct.")
             else:
                 print_with_delay(f"Host: Nope. {trivia_question.correct_answers[0]}")
+
+            # TODO: TRACK QUESTION RESPONSE STATISTICS e.g. num correct, num. wrong etc.
+
             clear_screen()
         
     def play(self):
         self._introduce_round()
         self._main_question_loop()
+        #GameManager.scene_queue.put(RoundEliminationScene())
         self.on_scene_exit()
 
     def on_scene_exit(self):

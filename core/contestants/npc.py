@@ -1,3 +1,5 @@
+from random import choice, randrange
+from time import sleep
 from .contestant_base import Contestant
 from .personality import PersonalityType
 from .contestant_enums import PromptType
@@ -9,6 +11,7 @@ class NPC(Contestant):
         self.personality_type = personality_type
 
     def get_response(self, prompt_type: PromptType, prompt) -> str:
+        sleep(randrange(2, 5))
         response = 0
         if prompt_type is PromptType.TRIVIA_QUESTION:
             response = self._answer_trivia_question(prompt)
@@ -24,7 +27,7 @@ class NPC(Contestant):
             # choose if they want to bank based on how cautious the NPC is
             # inverse likelihood based on current bank position
                 # the higher the bank is the MORE likely a cautious NPC will choose to bank
-            pass
+            response = choice(["Bank!", ""])
 
         return response
 
