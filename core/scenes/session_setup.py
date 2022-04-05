@@ -24,8 +24,7 @@ class SessionSetupScene(SceneBase):
     def play(self):
         print('=== SETUP ===')
         print_with_delay("1. How many competitors do you want?")
-        print_with_delay("[Pick a number from 1 to 7]")
-        response = int(Player.get_response(PromptType.NUMBER, default_response=4))
+        response = int(Player.get_response(PromptType.NUMBER, default_response=4, input_txt="[Pick a number from 1 to 7] > "))
         num_npc_contestants = response
         if response > GameManager.max_contestants:
             num_npc_contestants = GameManager.max_contestants

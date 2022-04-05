@@ -49,7 +49,6 @@ class SoundManager():
     def stop_playing(self, audio_type:AudioType=None):
         if audio_type == None:
             for audio_type, thread in SoundManager._threads.items():
-                print(audio_type, thread)
                 SoundManager._terminate_thread(thread)
                 SoundManager._current_sounds[audio_type] = None
         else:

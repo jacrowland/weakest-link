@@ -1,5 +1,7 @@
 from random import choice, randrange
 from time import sleep
+
+from scenes.rounds.utils import RoundInfo
 from .contestant_base import Contestant
 from .personality import PersonalityType
 from .contestant_enums import PromptType
@@ -20,7 +22,7 @@ class NPC(Contestant):
             # rank based on
             #   how many questions they got right (cautiousness)
             #   how many times they have voted against you (hostility)
-            pass
+            response = self._get_vote(round_info=prompt)
         elif prompt_type is PromptType.BANK:
             # get bank from round manager
             # choose if they want to bank based on how cautious the NPC is
@@ -49,6 +51,9 @@ class NPC(Contestant):
             # else
                 # return correct answer
         return answer
+
+    def _get_vote(self, round_info:RoundInfo):
+        return choice(round_info.participanting_contestants)
 
     def _calculate_probability(self):
         return 0

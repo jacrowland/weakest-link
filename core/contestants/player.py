@@ -22,4 +22,10 @@ class Player(Contestant):
             elif prompt_type is PromptType.CONTINUE:
                 valid_response = True
                 response = default_response 
+            elif prompt_type is PromptType.VOTE:
+                raise NotImplemented("Player PromptType.VOTE not implemented")
+            elif prompt_type is PromptType.BANK:
+                valid_response = True
+                # TODO : FIX THIS
+
         return response
