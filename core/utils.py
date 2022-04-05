@@ -1,6 +1,9 @@
 from os import system, name
 from time import sleep
 
+from engine.sound.sound_manager import SoundManager
+from engine.sound.sound_enums import Sounds, AudioType
+
 def clear_screen():
     if name == 'nt':
         _ = system('cls')

@@ -8,7 +8,6 @@ class Player(Contestant):
     @classmethod
     def get_response(self, prompt_type:PromptType=PromptType.CONTINUE, prompt=None, input_txt:str="> ", default_response=0) -> str:
         valid_response = False
-
         while not valid_response:
             response = input(input_txt).strip()
             if prompt_type is PromptType.NUMBER:
@@ -22,6 +21,5 @@ class Player(Contestant):
                 valid_response = True
             elif prompt_type is PromptType.CONTINUE:
                 valid_response = True
-                response = default_response
-                    
+                response = default_response 
         return response

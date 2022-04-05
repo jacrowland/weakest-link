@@ -12,7 +12,7 @@ class Contestant(ABC):
         return f'Name: {self.name}\nLocation: {self._location}\nOccupation: {self._occupation}'
 
     @abstractmethod
-    def get_response(self, prompt_type:PromptType, prompt, default_response=0)->str:
+    def get_response(self, prompt_type:PromptType, prompt=None, default_response=0)->str:
         pass
 
     @property

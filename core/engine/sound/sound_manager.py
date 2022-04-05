@@ -53,7 +53,7 @@ class SoundManager():
                 SoundManager._terminate_thread(thread)
                 SoundManager._current_sounds[audio_type] = None
         else:
-            SoundManager._terminate_thread(thread=SoundManager._current_track_thread)
+            SoundManager._terminate_thread(thread=SoundManager._threads[audio_type])
             SoundManager._current_sounds[audio_type] = None
 
 if __name__ == "__main__":

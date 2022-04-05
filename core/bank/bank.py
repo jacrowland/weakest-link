@@ -19,9 +19,11 @@ class Bank():
     def reset_chain(self):
         self._current_pos = 0
 
-    def save(self):
-        self._amount += self._chain[self._current_pos]
+    def save(self)->int:
+        amount_saved = self._chain[self._current_pos]
+        self._amount += amount_saved
         self.reset_chain()
+        return amount_saved
 
     def __str__(self):
         return_str = f'| $ {self._amount} |'

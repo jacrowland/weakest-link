@@ -59,8 +59,7 @@ class IntroductionScene(SceneBase):
         for contestant in GameManager.contestants:
             if isinstance(contestant, Contestant):
                 print_with_delay(f"{contestant.name}: Hi I'm {contestant.name}. I am from {contestant.location} and I am a {contestant.occupation}")
-                Player.get_response(PromptType.CONTINUE)
-                clear_screen()
+                sleep(1)
 
         clear_screen()
 

@@ -8,6 +8,7 @@ class Sounds(enum.Enum):
     QUESTION_BED = r"assets\sound\music\question_bed.mp3"
     CREDITS = r"assets\sound\music\credits.mp3"
     PENALITY_SHOOTOUT = r"assets\sound\music\penality_shootout.mp3"
+    TYPING = r"assets\sound\sfx\typing.mp3"
 
 class AudioType(enum.IntEnum):
     MUSIC_TRACK = 1
