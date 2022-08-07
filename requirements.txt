@@ -1,1 +1,4 @@
 playsound
+bing_image_downloader
+Pillow
+names

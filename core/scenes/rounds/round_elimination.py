@@ -1,4 +1,3 @@
-from turtle import delay
 from contestants.contestant_enums import PromptType
 from contestants.player import Player
 from utils import clear_screen
@@ -10,7 +9,7 @@ from contestants.npc import NPC
 from contestants.player import Player
 from time import sleep
 
-from .regular_round import RegularRoundScene
+#from .regular_round import RegularRoundScene
 
 from utils import print_with_delay, get_contestant_from_name, get_remaining_contestants
 
@@ -73,8 +72,10 @@ class RoundEliminationScene(SceneBase):
         print_with_delay(f"{contestant_to_eliminate.name} has been eliminated from the competition.")
         GameManager.player.get_response(PromptType.CONTINUE)
 
+        """
         if len(get_remaining_contestants(GameManager.contestants)) > 2:
             GameManager.scene_queue.put(RegularRoundScene(self.round_info.number + 1))
+        """
 
         # if only two remaining then start the FINAL ROUND 
         # else start a new REGULAR ROUND
